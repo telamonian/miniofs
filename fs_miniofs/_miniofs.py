@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
-__all__ = ["S3FS"]
+__all__ = ["MINIOFS"]
 
 import contextlib
 from datetime import datetime
@@ -192,7 +192,7 @@ def s3errors(path):
 
 
 @six.python_2_unicode_compatible
-class S3FS(FS):
+class MINIOFS(FS):
     """
     Construct an Amazon S3 filesystem for
     `PyFilesystem <https://pyfilesystem.org>`_
@@ -210,7 +210,7 @@ class S3FS(FS):
     :param str region: Optional S3 region.
     :param str delimiter: The delimiter to separate folders, defaults to
         a forward slash.
-    :param bool strict: When ``True`` (default) S3FS will follow the
+    :param bool strict: When ``True`` (default) MINIOFS will follow the
         PyFilesystem specification exactly. Set to ``False`` to disable
         validation of destination paths which may speed up uploads /
         downloads.
@@ -303,7 +303,7 @@ class S3FS(FS):
                 upload_args["ACL"] = acl
         self.upload_args = upload_args
         self.download_args = download_args
-        super(S3FS, self).__init__()
+        super(MINIOFS, self).__init__()
 
     def __repr__(self):
         return _make_repr(
@@ -315,7 +315,7 @@ class S3FS(FS):
         )
 
     def __str__(self):
-        return "<s3fs '{}'>".format(join(self._bucket_name, relpath(self.dir_path)))
+        return "<miniofs '{}'>".format(join(self._bucket_name, relpath(self.dir_path)))
 
     def _path_to_key(self, path):
         """Converts an fs path to a s3 key."""
