@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-with open("fs_s3fs/_version.py") as f:
+with open("fs_miniofs/_version.py") as f:
     exec(f.read())
 
 CLASSIFIERS = [
@@ -26,7 +26,7 @@ with open("README.rst", "rt") as f:
 REQUIREMENTS = ["boto3~=1.9", "fs~=2.4", "six~=1.10"]
 
 setup(
-    name="fs-s3fs",
+    name="fs-miniofs",
     author="Will McGugan",
     author_email="willmcgugan@gmail.com",
     classifiers=CLASSIFIERS,
@@ -38,7 +38,7 @@ setup(
     keywords=["pyfilesystem", "Amazon", "s3"],
     platforms=["any"],
     test_suite="nose.collector",
-    url="https://github.com/PyFilesystem/s3fs",
+    url="https://github.com/PyFilesystem/miniofs",
     version=__version__,
-    entry_points={"fs.opener": ["s3 = fs_s3fs.opener:S3FSOpener"]},
+    entry_points={"fs.opener": ["minio = fs_miniofs.opener:MINIOFSOpener"]},
 )

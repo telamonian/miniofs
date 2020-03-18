@@ -1,20 +1,20 @@
 # coding: utf-8
-"""Defines the S3FS Opener."""
+"""Defines the MINIOFS Opener."""
 
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
-__all__ = ["S3FSOpener"]
+__all__ = ["MINIOFSOpener"]
 
 from fs.opener import Opener
 from fs.opener.errors import OpenerError
 
-from ._s3fs import S3FS
+from ._miniofs import MINIOFS
 
 
-class S3FSOpener(Opener):
-    protocols = ["s3"]
+class MINIOFSOpener(Opener):
+    protocols = ["minio"]
 
     def open_fs(self, fs_url, parse_result, writeable, create, cwd):
         bucket_name, _, dir_path = parse_result.resource.partition("/")
@@ -25,7 +25,7 @@ class S3FSOpener(Opener):
             if "strict" in parse_result.params
             else True
         )
-        s3fs = S3FS(
+        miniofs = MINIOFS(
             bucket_name,
             dir_path=dir_path or "/",
             aws_access_key_id=parse_result.username or None,
@@ -35,4 +35,4 @@ class S3FSOpener(Opener):
             cache_control=parse_result.params.get("cache_control", None),
             strict=strict,
         )
-        return s3fs
+        return miniofs
