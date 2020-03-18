@@ -1,10 +1,10 @@
 # MINIOFS
 
-MINIOFS is a [PyFilesystem](https://www.pyfilesystem.org/) interface to
-Amazon S3 cloud storage.
+MINIOFS is a [PyFilesystem](https://www.pyfilesystem.org/) interface to [MinIO](https://github.com/minio/minio)'s very special dialect of the Amazon S3 cloud storage api.
 
-As a PyFilesystem concrete class, [MINIOFS](http://fs-miniofs.readthedocs.io/en/latest/) allows you to work with S3 in the
-same way as any other supported filesystem.
+As a PyFilesystem concrete class, [MINIOFS](http://fs-miniofs.readthedocs.io/en/latest/) allows you to work with MinIO-flavored S3 in the same way as any other supported filesystem.
+
+MINIOFS is a minimal fork of the [S3FS project](https://github.com/PyFilesystem/s3fs), which is a PyFilesystem interface that works with the vanilla S3 api.
 
 ## Installing
 
