@@ -420,43 +420,27 @@ class S3FS(FS):
     def isdir(self, path):
         _path = self.validatepath(path)
         try:
-            return self._getinfo(_path).is_dir
+            return self.getinfo(_path).is_dir
         except errors.ResourceNotFound:
             return False
 
-    def getinfo(self, path, namespaces=None):
+    def getinfo(self, path, namespaces=None, check_parent=False):
         self.check()
         namespaces = namespaces or ()
         _path = self.validatepath(path)
         _key = self._path_to_key(_path)
 
-        try:
-            dir_path = dirname(_path)
-            if dir_path != "/":
-                _dir_key = self._path_to_dir_key(dir_path)
-                with s3errors(path):
-                    obj = self.s3.Object(self._bucket_name, _dir_key)
-                    obj.load()
-        except errors.ResourceNotFound:
-            raise errors.ResourceNotFound(path)
+        if check_parent:
+            try:
+                dir_path = dirname(_path)
+                if dir_path != "/":
+                    _dir_key = self._path_to_dir_key(dir_path)
+                    with s3errors(path):
+                        obj = self.s3.Object(self._bucket_name, _dir_key)
+                        obj.load()
+            except errors.ResourceNotFound:
+                raise errors.ResourceNotFound(path)
 
-        if _path == "/":
-            return Info(
-                {
-                    "basic": {"name": "", "is_dir": True},
-                    "details": {"type": int(ResourceType.directory)},
-                }
-            )
-
-        obj = self._get_object(path, _key)
-        info = self._info_from_object(obj, namespaces)
-        return Info(info)
-
-    def _getinfo(self, path, namespaces=None):
-        """Gets info without checking for parent dir."""
-        namespaces = namespaces or ()
-        _path = self.validatepath(path)
-        _key = self._path_to_key(_path)
         if _path == "/":
             return Info(
                 {
@@ -507,7 +491,7 @@ class S3FS(FS):
             raise errors.ResourceNotFound(path)
 
         try:
-            self._getinfo(path)
+            self.getinfo(path)
         except errors.ResourceNotFound:
             pass
         else:
@@ -553,7 +537,7 @@ class S3FS(FS):
                     raise errors.ResourceNotFound(path)
 
             try:
-                info = self._getinfo(path)
+                info = self.getinfo(path)
             except errors.ResourceNotFound:
                 pass
             else:
@@ -580,7 +564,7 @@ class S3FS(FS):
             return s3file
 
         if self.strict:
-            info = self.getinfo(path)
+            info = self.getinfo(path, check_parent=self.strict)
             if info.is_dir:
                 raise errors.FileExpected(path)
 
@@ -612,7 +596,7 @@ class S3FS(FS):
         _path = self.validatepath(path)
         _key = self._path_to_key(_path)
         if self.strict:
-            info = self.getinfo(path)
+            info = self.getinfo(path, check_parent=self.strict)
             if info.is_dir:
                 raise errors.FileExpected(path)
         self.client.delete_object(Bucket=self._bucket_name, Key=_key)
@@ -644,12 +628,12 @@ class S3FS(FS):
         self.client.delete_object(Bucket=self._bucket_name, Key=_key)
 
     def setinfo(self, path, info):
-        self.getinfo(path)
+        self.getinfo(path, check_parent=self.strict)
 
     def readbytes(self, path):
         self.check()
         if self.strict:
-            info = self.getinfo(path)
+            info = self.getinfo(path, check_parent=self.strict)
             if not info.is_file:
                 raise errors.FileExpected(path)
         _path = self.validatepath(path)
@@ -664,7 +648,7 @@ class S3FS(FS):
     def download(self, path, file, chunk_size=None, **options):
         self.check()
         if self.strict:
-            info = self.getinfo(path)
+            info = self.getinfo(path, check_parent=self.strict)
             if not info.is_file:
                 raise errors.FileExpected(path)
         _path = self.validatepath(path)
@@ -694,7 +678,7 @@ class S3FS(FS):
         prefix_len = len(_s3_key)
 
         if self.strict:
-            info = self.getinfo(path)
+            info = self.getinfo(path, check_parent=self.strict)
             if not info.is_dir:
                 raise errors.DirectoryExpected(path)
 
@@ -743,7 +727,7 @@ class S3FS(FS):
             if not self.isdir(dirname(path)):
                 raise errors.ResourceNotFound(path)
             try:
-                info = self._getinfo(path)
+                info = self.getinfo(path)
                 if info.is_dir:
                     raise errors.FileExpected(path)
             except errors.ResourceNotFound:
@@ -766,7 +750,7 @@ class S3FS(FS):
             if not self.isdir(dirname(path)):
                 raise errors.ResourceNotFound(path)
             try:
-                info = self._getinfo(path)
+                info = self.getinfo(path)
                 if info.is_dir:
                     raise errors.FileExpected(path)
             except errors.ResourceNotFound:
