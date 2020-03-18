@@ -27,18 +27,17 @@ REQUIREMENTS = ["boto3~=1.9", "fs~=2.4", "six~=1.10"]
 
 setup(
     name="fs-miniofs",
-    author="Will McGugan",
-    author_email="willmcgugan@gmail.com",
+    author="Max Klein",
     classifiers=CLASSIFIERS,
-    description="Amazon S3 filesystem for PyFilesystem2",
+    description="MinIO S3 filesystem for PyFilesystem2",
     install_requires=REQUIREMENTS,
     license="MIT",
     long_description=DESCRIPTION,
     packages=find_packages(),
-    keywords=["pyfilesystem", "Amazon", "s3"],
+    keywords=["pyfilesystem", "MinIO", "s3"],
     platforms=["any"],
     test_suite="nose.collector",
-    url="https://github.com/PyFilesystem/miniofs",
+    url="https://github.com/telamonian/miniofs",
     version=__version__,
     entry_points={"fs.opener": ["minio = fs_miniofs.opener:MINIOFSOpener"]},
 )
