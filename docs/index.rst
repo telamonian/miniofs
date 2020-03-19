@@ -4,14 +4,14 @@
    contain the root `toctree` directive.
 
 MINIOFS
-====
+=======
 
 MINIOFS is a `PyFilesystem interface
 <https://docs.pyfilesystem.org/en/latest/reference/base.html>`_ to
 Amazon S3 cloud storage.
 
-As a PyFilesystem concrete class, MINIOFS allows you to work with S3 in the
-same as any other supported filesystem.
+As a PyFilesystem concrete class, MINIOFS allows you to work with MinIO-flavored
+S3 in the same as any other supported filesystem.
 
 Installing
 ==========
@@ -26,14 +26,14 @@ Alternatively, if you want the cutting edge code, you can check out
 the GitHub repos at https://github.com/pyfilesystem/miniofs
 
 
-Opening an S3 Filesystem
-========================
+Opening a MinIO-flavored S3 Filesystem
+======================================
 
 There are two options for constructing a :ref:`miniofs` instance. The simplest way
 is with an *opener*, which is a simple URL like syntax. Here is an example::
 
     from fs import open_fs
-    miniofs = open_fs('s3://mybucket/')
+    miniofs = open_fs('minio://mybucket/')
 
 For more granular control, you may import the MINIOFS class and construct
 it explicitly::
@@ -42,7 +42,7 @@ it explicitly::
     miniofs = MINIOFS('mybucket')
 
 MINIOFS Constructor
-----------------
+-------------------
 
 .. autoclass:: fs_miniofs.MINIOFS
     :members:
@@ -78,7 +78,7 @@ and secret key configured on your system. You may also specify when
 creating the filesystem instance. Here's how you would do that with an
 opener::
 
-    miniofs = open_fs('s3://<access key>:<secret key>@mybucket')
+    miniofs = open_fs('minio://<access key>:<secret key>@mybucket')
 
 Here's how you specify credentials with the constructor::
 

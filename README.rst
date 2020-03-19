@@ -1,5 +1,5 @@
 MINIOFS
-====
+=======
 
 MINIOFS is a `PyFilesystem <https://www.pyfilesystem.org/>`__ interface to
 Amazon S3 cloud storage.
@@ -18,7 +18,7 @@ You can install MINIOFS from pip as follows:
     pip install fs-miniofs
 
 Opening a MINIOFS
---------------
+-----------------
 
 Open an MINIOFS by explicitly using the constructor:
 
@@ -32,7 +32,7 @@ Or with a FS URL:
 .. code:: python
 
       from fs import open_fs
-      miniofs = open_fs('s3://mybucket')
+      miniofs = open_fs('minio://mybucket')
 
 Downloading Files
 -----------------

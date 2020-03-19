@@ -33,6 +33,7 @@ setup(
     install_requires=REQUIREMENTS,
     license="MIT",
     long_description=DESCRIPTION,
+    long_description_content_type="text/x-rst",
     packages=find_packages(),
     keywords=["pyfilesystem", "MinIO", "s3"],
     platforms=["any"],

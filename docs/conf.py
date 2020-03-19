@@ -55,9 +55,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'MINIOFS'
-copyright = u'2017, Will McGugan'
-author = u'Will McGugan'
+project = 'MINIOFS'
+copyright = '2020, Max Klein'
+author = 'Max Klein'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -137,7 +137,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'MINIOFS.tex', u'MINIOFS Documentation',
-     u'Will McGugan', 'manual'),
+     u'Max Klein', 'manual'),
 ]
 
 
