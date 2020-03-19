@@ -210,10 +210,11 @@ class MINIOFS(FS):
     :param str region: Optional S3 region.
     :param str delimiter: The delimiter to separate folders, defaults to
         a forward slash.
-    :param bool strict: When ``True`` (default) MINIOFS will follow the
-        PyFilesystem specification exactly. Set to ``False`` to disable
-        validation of destination paths which may speed up uploads /
-        downloads.
+    :param bool strict: Set to ``False`` (default) to disable
+        validation of destination paths. Currently this is need to work
+        with the way that MinIO automatically flattens all directories.
+        When ``True`` (default) MINIOFS will follow the
+        PyFilesystem specification exactly.
     :param str cache_control: Sets the 'Cache-Control' header for uploads.
     :param str acl: Sets the Access Control List header for uploads.
     :param dict upload_args: A dictionary for additional upload arguments.
@@ -272,7 +273,7 @@ class MINIOFS(FS):
         endpoint_url=None,
         region=None,
         delimiter="/",
-        strict=True,
+        strict=False,
         cache_control=None,
         acl=None,
         upload_args=None,
